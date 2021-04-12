@@ -50,6 +50,7 @@ int main()
         mybuf.sem_num = 0;
         mybuf.sem_op = 1;
         mybuf.sem_flg = 0;
+        semop(semid, buf, 1);
     }
 
     if (new) {
@@ -60,12 +61,14 @@ int main()
         mybuf.sem_num = 0;
         mybuf.sem_op = -1;
         mybuf.sem_flg = 0;
+        semop(semid, buf, 1);
         array[0] += 1;
         for (i = 0; i < 2000000000L; i++);
         array[2] += 1;
         mybuf.sem_num = 0;
         mybuf.sem_op = 1;
         mybuf.sem_flg = 0;
+        semop(semid, buf, 1);
     }
 
     printf
