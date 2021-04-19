@@ -1,3 +1,9 @@
+// Сначала родитель записывает сообщение, затем вызывается A(A, 1) и 
+// далее ребенок производит чтение. После этого, родитель через D(S, 1) ждет, 
+// когда ребенок запишет сообщение и вызовет A(S, 1). 
+// Это повторяется n раз.
+
+
 #include <time.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -51,8 +57,6 @@ int main()
         for (int i = 0; i < n; ++i) {
             size = write(fd[1], "Hello, world!", 14);
 
-	   
-
             if (size != 14) {
                 printf("Parent can\'t write all string to pipe\n");
                 exit(-1);
@@ -88,7 +92,6 @@ int main()
         /* Child process */
         for (int i = 0; i < n; ++i){
 	    
-
             size = read(fd[0], resstring, 14);
             if (size < 0) {
                 printf("Child can\'t read string\n");
