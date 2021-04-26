@@ -58,7 +58,7 @@ int main(void)
 
     len = sizeof(mybuf.info);
 
-    if (( len = msgrcv(msqid, (struct msgbuf *) &mybuf, len, 0, 0)) < 0) {
+    if (( len = msgrcv(msqid, (struct msgbuf *) &mybuf, len, 2, 0)) < 0) {
       printf("Can\'t receive message from queue\n");
       exit(-1);
     }
@@ -68,7 +68,7 @@ int main(void)
 
   /* Send the last message */
 
-  mybuf.mtype = LAST_MESSAGE;
+  mybuf.mtype = 1;
 
   mybuf.info.cinfo = 'q';
   mybuf.info.iinfo = -1;

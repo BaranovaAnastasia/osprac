@@ -40,7 +40,7 @@ int main(void)
     ++i;
     maxlen = sizeof(mybuf.info);
 
-    if (( len = msgrcv(msqid, (struct msgbuf *) &mybuf, maxlen, 0, 0)) < 0) {
+    if (( len = msgrcv(msqid, (struct msgbuf *) &mybuf, maxlen, 1, 0)) < 0) {
       printf("Can\'t receive message from queue\n");
       exit(-1);
     }
