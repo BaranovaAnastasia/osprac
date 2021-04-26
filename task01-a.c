@@ -46,7 +46,7 @@ int main(void)
     // Fill in the structure for the message and
     // determine the length of the informative part.
     //
-    mybuf.mtype = i;
+    mybuf.mtype = i + 1;
     mybuf.info.cinfo = chars[i];
     mybuf.info.iinfo = nums[i];
     len = sizeof(mybuf.info);

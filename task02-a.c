@@ -10,7 +10,7 @@
 int main(void)
 {
   int msqid;      // IPC descriptor for the message queue
-  char pathname[]="task01-a.c"; // The file name used to generate the key.
+  char pathname[]="task02-a.c"; // The file name used to generate the key.
                              // A file with this name must exist in the current directory.
   key_t  key;     // IPC key
   int i,len;      // Cycle counter and the length of the informative part of the message
@@ -36,7 +36,7 @@ int main(void)
     exit(-1);
   }
 
-  print("A start.")
+  printf("A start.\n");
 
   const char  chars[] = {'a', 'b', 'c', 'd', 'e'};
   const int   nums[] = {1, 2, 3, 4, 5};
@@ -56,9 +56,9 @@ int main(void)
     }
 
 
-    maxlen = sizeof(mybuf.info);
+    len = sizeof(mybuf.info);
 
-    if (( len = msgrcv(msqid, (struct msgbuf *) &mybuf, maxlen, 0, 0)) < 0) {
+    if (( len = msgrcv(msqid, (struct msgbuf *) &mybuf, len, 0, 0)) < 0) {
       printf("Can\'t receive message from queue\n");
       exit(-1);
     }
@@ -79,7 +79,7 @@ int main(void)
     exit(-1);
   }
 
-  print("A end.")
+  printf("A end.\n");
 
   return 0;
 }

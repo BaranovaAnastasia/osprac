@@ -32,7 +32,12 @@ int main(void)
     exit(-1);
   }
 
+  const char  chars[] = {'a', 'b', 'c', 'd', 'e'};
+  const int   nums[] = {1, 2, 3, 4, 5};
+
+  int i = -1;
   while (1) {
+    ++i;
     maxlen = sizeof(mybuf.info);
 
     if (( len = msgrcv(msqid, (struct msgbuf *) &mybuf, maxlen, 0, 0)) < 0) {
@@ -43,7 +48,7 @@ int main(void)
     printf("B received: message type = %ld, char = %c, number = %d\n", mybuf.mtype, mybuf.info.cinfo, mybuf.info.iinfo);
 
 
-    if (mybuf.info.mnumber == 0) {
+    if (mybuf.info.iinfo == -1) {
       msgctl(msqid, IPC_RMID, (struct msqid_ds *)NULL);
       exit(0);
     }
