@@ -6,12 +6,12 @@
 #include <unistd.h>
 #include <errno.h>
 
-void next(char *fileName, int i) {
+void moveNext(char *fileName, int i) {
     fileName[i] += 1;
 
     if (fileName[i] > 'z') {
         fileName[i] = 'a';
-        next(fileName, i - 1);
+        moveNext(fileName, i - 1);
     }
 }
 
@@ -30,7 +30,7 @@ int main() {
 
 
     if ((fd = open("dir/a", O_WRONLY | O_CREAT, 0666)) < 0) {
-        printf("Can\'t open file a\n");
+        printf("Can\'t open file \'a\'\n");
         exit(-1);
     }
 
@@ -39,10 +39,21 @@ int main() {
     }
 
     while (1) {
-        if (symlink(fileName, filePath) != 0) {
-            printf("Can\'t create symlink\n");
-            exit(-1);
-        }
+
+        moveNext(filePath, 5);
+
+	if (recursionDepth) {
+		if (symlink(fileName, filePath) != 0) {
+            		printf("Can\'t create symlink\n");
+            		exit(-1);
+        	}		
+	} else {
+		char prev[] = "a";
+		if (symlink(prev, filePath) != 0) {
+            		printf("Can\'t create symlink\n");
+            		exit(-1);
+        	}		
+	}
 
         if ((fd = open(filePath, O_WRONLY, 0666)) < 0) {
             break;
@@ -54,8 +65,7 @@ int main() {
             printf("Can\'t close file\n");
         }
 
-        next(filePath, 5);
-        next(fileName, 1);
+        moveNext(fileName, 1);
     }
 
     printf("Result recursion depth: %d\n", recursionDepth);
