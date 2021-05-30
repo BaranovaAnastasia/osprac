@@ -12,7 +12,7 @@
 int main() {
 
     int msqid;
-    char pathname[] = "task03_server.c";
+    char pathname[] = "task03-server.c";
     key_t key;
     int len, max;
 
