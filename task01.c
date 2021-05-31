@@ -1,64 +1,14 @@
-#include <sys/types.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <errno.h>
+#include <signal.h>
 
-void next(char *fileName, int i) {
-    fileName[i] += 1;
-
-    if (fileName[i] > 'z') {
-        fileName[i] = 'a';
-        next(fileName, i - 1);
-    }
-}
-
-int main() {
-    int fd;
-    int recursionDepth = 0;
-    char fileName[] = "aa";
-    char filePath[] = "dir/aa";
-    (void) umask(0);
-
-
-    if (mkdir("dir", 0777) < 0) {
-        printf("Can't create dir \"dir\"");
-        exit(-1);
-    }
-
-
-    if ((fd = open("dir/a", O_WRONLY | O_CREAT, 0666)) < 0) {
-        printf("Can\'t open file a\n");
-        exit(-1);
-    }
-
-    if (close(fd) < 0) {
-        printf("Can\'t close file\n");
-    }
-
-    while (1) {
-        if (symlink(fileName, filePath) != 0) {
-            printf("Can\'t create symlink\n");
-            exit(-1);
-        }
-
-        if ((fd = open(filePath, O_WRONLY, 0666)) < 0) {
-            break;
-        } else {
-            recursionDepth++;
-        }
-
-        if (close(fd) < 0) {
-            printf("Can\'t close file\n");
-        }
-
-        next(filePath, 5);
-        next(fileName, 1);
-    }
-
-    printf("Result recursion depth: %d\n", recursionDepth);
-
-    return 0;
+int main(void) {
+  //
+  // Set the process response to the SIGINT and SIGQUIT signals to ignore
+  //
+  (void)signal(SIGINT, SIG_IGN);
+  (void)signal(SIGQUIT, SIG_IGN);
+  //
+  // From this point, the process will ignore the occurrences of both SIGINT and SIGQUIT signals.
+  //
+  while(1);
+  return 0;
 }
