@@ -11,7 +11,7 @@ void my_handler(int nsig) {
   int status[10];
   pid_t pid[10];
 
-  for(i = 0; i < 10; ++i) {
+  for(int i = 0; i < 10; ++i) {
       pid[i] = waitpid(-1, &status[i], 0);
       if (pid[i]  < 0) {
           printf("Some error on waitpid errno = %d\n", errno);
