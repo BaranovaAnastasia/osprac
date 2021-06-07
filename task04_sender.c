@@ -25,6 +25,7 @@ int main(void) {
             kill(receiverPid, SIGUSR1);
         }
         mask <<= 1;
+	for (int i = 0; i < 10000000; ++i);
     }
 
     return 0;
