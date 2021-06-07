@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int value = 0;
 int mask = 1;
@@ -16,11 +17,11 @@ void handler1(int nsig) {
 void handler2(int nsig) {
     value |= mask;
     mask <<= 1;
-	kill(senderPid, SIGUSR1);
+    kill(senderPid, SIGUSR1);
 }
 
 void handler(int nsig) {
-    resdy = 1;
+    ready = 1;
 }
 
 int main(void) {
@@ -31,6 +32,8 @@ int main(void) {
         printf("Cannot read sender pid.\n");
         exit(-1);
     }
+
+    kill(senderPid, SIGUSR1);
 
     (void) signal(SIGUSR1, handler1);
     (void) signal(SIGUSR2, handler2);

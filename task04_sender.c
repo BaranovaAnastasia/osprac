@@ -29,7 +29,7 @@ int main(void) {
         exit(-1);
     }
 
-	signal(SIGUSR1, handler);
+    signal(SIGUSR1, handler);
     while (mask != 0) {
         while (ready == 0);
 
@@ -39,7 +39,7 @@ int main(void) {
             kill(receiverPid, SIGUSR1);
         }
         mask <<= 1;
-		ready = 0;
+	ready = 0;
     }
     kill(receiverPid, SIGCHLD);
 
