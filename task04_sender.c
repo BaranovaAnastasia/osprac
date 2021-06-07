@@ -4,29 +4,44 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int main(void) {
-    pid_t pid, receiverPid;
-    int integer;
-    int mask = 1;
+int ready = 0;
+int mask = 1;
+int integer;
 
-    pid = getpid();
-    printf("pid = %d\n", pid);
+void handler(int nsig) {
+	ready = 1;
+}
+
+int main(void) {
+    pid_t receiverPid;
+
+    printf("pid = %d\n", getpid());
 
     printf("Receiver pid: ");
-    scanf("%d", &receiverPid);
+    if (scanf("%d", &receiverPid) < 0) {
+        printf("Cannot read receiver pid.\n");
+        exit(-1);
+    }
 
     printf("Integer to send: ");
-    scanf("%d", &integer);
+    if (scanf("%d", &integer) < 0) {
+        printf("Cannot read a number.\n");
+        exit(-1);
+    }
 
+	signal(SIGUSR1, handler);
     while (mask != 0) {
-        if (integer & mask) {
+        while (ready == 0);
+
+		if (integer & mask) {
             kill(receiverPid, SIGUSR2);
         } else {
             kill(receiverPid, SIGUSR1);
         }
         mask <<= 1;
-	for (int i = 0; i < 10000000; ++i);
+		ready = 0;
     }
+    kill(receiverPid, SIGCHLD);
 
     return 0;
 }
